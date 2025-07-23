@@ -1,0 +1,16 @@
+@import "tailwindcss";
+
+@theme {
+  /* COLOURS BODY */
+  --color-main-body: #53cde2;
+  --color-primary-body: #005792;
+  --color-secondary-body: #d1f4fa;
+  --color-tertiary-body: #d1f4fa;
+  --color-main-font: #181823;
+  --color-tertiary-font: #cb0404;
+
+  /* FONTS  */
+  --default-font-family: "DM Sans", sans-serif;
+  --font-primary-font: "DM Sans", sans-serif;
+  --font-secondary-font: "Plus Jakarta Sans", sans-serif;
+}

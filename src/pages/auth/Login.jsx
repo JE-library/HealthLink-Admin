@@ -6,6 +6,7 @@ const Login = () => {
   const navigate = useNavigate();
   const [formData, setFormData] = useState({ email: "", password: "" });
   const [error, setError] = useState("");
+  const [isLoading, setIsloading] = useState(false);
 
   const handleChange = (e) => {
     setFormData((prev) => ({
@@ -17,7 +18,7 @@ const Login = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     setError("");
-
+    setIsloading(true);
     try {
       const res = await axios.post("/admin/login", formData);
 
@@ -31,13 +32,17 @@ const Login = () => {
       }
     } catch (err) {
       setError(err.response?.data?.message || "Login failed. Try again.");
+    } finally {
+      setIsloading(false);
     }
   };
 
   return (
     <div className="min-h-screen flex items-center justify-center bg-main-body font-primary">
       <div className="bg-white p-8 rounded-lg shadow-md w-full max-w-md">
-        <h2 className="text-2xl font-semibold text-center mb-6 text-primary-body">Admin Login</h2>
+        <h2 className="text-2xl font-semibold text-center mb-6 text-primary-body">
+          Admin Login
+        </h2>
 
         {error && (
           <div className="bg-red-100 text-red-700 p-2 rounded mb-4 text-sm">
@@ -47,7 +52,10 @@ const Login = () => {
 
         <form onSubmit={handleSubmit} className="space-y-4">
           <div>
-            <label htmlFor="email" className="block text-sm font-medium text-main-font mb-1">
+            <label
+              htmlFor="email"
+              className="block text-sm font-medium text-main-font mb-1"
+            >
               Email
             </label>
             <input
@@ -61,7 +69,10 @@ const Login = () => {
           </div>
 
           <div>
-            <label htmlFor="password" className="block text-sm font-medium text-main-font mb-1">
+            <label
+              htmlFor="password"
+              className="block text-sm font-medium text-main-font mb-1"
+            >
               Password
             </label>
             <input
@@ -75,10 +86,13 @@ const Login = () => {
           </div>
 
           <button
+            disabled={isLoading}
             type="submit"
-            className="w-full bg-primary-body text-white py-2 rounded transition cursor-pointer hover:bg-primary-body/50"
+            className={`w-full  text-white py-2 rounded transition cursor-pointer hover:bg-primary-body/50 ${
+              isLoading ? "bg-main-body/90" : "bg-primary-body"
+            }`}
           >
-            Login
+            {isLoading ? "Loading..." : "login"}
           </button>
         </form>
       </div>

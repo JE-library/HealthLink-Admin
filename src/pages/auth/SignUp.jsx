@@ -4,6 +4,7 @@ import axios from "../../services/axios";
 
 const SignUp = () => {
   const navigate = useNavigate();
+  const [isLoading, setIsloading] = useState(false);
   const [formData, setFormData] = useState({
     fullName: "",
     email: "",
@@ -25,6 +26,7 @@ const SignUp = () => {
     e.preventDefault();
     setError("");
     setSuccess("");
+    setIsloading(true);
 
     try {
       const res = await axios.post("/admin/register", formData);
@@ -37,6 +39,8 @@ const SignUp = () => {
       }
     } catch (err) {
       setError(err.response?.data?.message || "An error occurred.");
+    } finally {
+      setIsloading(false);
     }
   };
 
@@ -60,7 +64,10 @@ const SignUp = () => {
 
         <form onSubmit={handleSubmit} className="space-y-4">
           <div>
-            <label htmlFor="fullName" className="block text-sm font-medium text-main-font mb-1">
+            <label
+              htmlFor="fullName"
+              className="block text-sm font-medium text-main-font mb-1"
+            >
               Full Name
             </label>
             <input
@@ -74,7 +81,10 @@ const SignUp = () => {
           </div>
 
           <div>
-            <label htmlFor="email" className="block text-sm font-medium text-main-font mb-1">
+            <label
+              htmlFor="email"
+              className="block text-sm font-medium text-main-font mb-1"
+            >
               Email
             </label>
             <input
@@ -88,7 +98,10 @@ const SignUp = () => {
           </div>
 
           <div>
-            <label htmlFor="phoneNumber" className="block text-sm font-medium text-main-font mb-1">
+            <label
+              htmlFor="phoneNumber"
+              className="block text-sm font-medium text-main-font mb-1"
+            >
               Phone Number
             </label>
             <input
@@ -102,7 +115,10 @@ const SignUp = () => {
           </div>
 
           <div>
-            <label htmlFor="password" className="block text-sm font-medium text-main-font mb-1">
+            <label
+              htmlFor="password"
+              className="block text-sm font-medium text-main-font mb-1"
+            >
               Password
             </label>
             <input
@@ -117,9 +133,11 @@ const SignUp = () => {
 
           <button
             type="submit"
-            className="w-full bg-main-body text-white py-2 rounded hover:bg-primary-body transition"
+            className={`w-full  text-white py-2 rounded hover:bg-primary-body/50 transition ${
+              isLoading ? "bg-main-body/90" : "bg-primary-body"
+            }`}
           >
-            Create Account
+            {isLoading ? "Loading..." : "Create Account"}
           </button>
         </form>
       </div>
